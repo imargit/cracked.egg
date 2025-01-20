@@ -1,5 +1,6 @@
 import json
-alphabet = ['A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 'K', 'L', 'M', 'N', 'O', 'P', 'Q', 'R', 'S', 'T', 'U', 'V', 'W', 'X', 'Y', 'Z']
+alphabet = ['A']
+            #'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 'K', 'L', 'M', 'N', 'O', 'P', 'Q', 'R', 'S', 'T', 'U', 'V', 'W', 'X', 'Y', 'Z']
 #open file
 people_all=[]
 for letter in alphabet:
@@ -10,16 +11,36 @@ for letter in alphabet:
 republican_list = [] 
 democrat_list = []
 
+republican_universities={}
+democrat_universities={}
+
+multiple_unis = 0
+
 for letter in people_all:
     for person in letter:
-        if 'ontology/party_label' in person:
-            if person['ontology/party_label'] == 'Republican Party (United States)': 
+        if ('ontology/party_label' in person) and ('ontology/almaMater_label' in person):
+            party = person['ontology/party_label']
+            uni = person['ontology/almaMater_label']
+            if 
+            """
+            if party == 'Republican Party (United States)': 
                 republican_list.append(person)
-            if person['ontology/party_label'] == 'Democratic Party (United States)': 
+                if uni in republican_universities:
+                    republican_universities[uni] = republican_universities[uni] + 1
+                else:
+                    republican_universities[uni] = 1
+            if party == 'Democratic Party (United States)': 
                 democrat_list.append(person)
+                if uni in democrat_universities:
+                    democrat_universities[uni] = democrat_universities[uni] + 1
+                else:
+                    democrat_universities[uni] = 1       
+            """     
+            
         
 print(f"Republicans: {len(republican_list)}")
 print(f"Democrats: {len(democrat_list)}")
-
+print(republican_universities)
+print(republican_universities)
 
 
