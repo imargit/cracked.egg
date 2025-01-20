@@ -15,13 +15,17 @@ republican_universities={}
 democrat_universities={}
 
 multiple_unis = 0
+one_uni = 0
 
 for letter in people_all:
     for person in letter:
         if ('ontology/party_label' in person) and ('ontology/almaMater_label' in person):
             party = person['ontology/party_label']
             uni = person['ontology/almaMater_label']
-            if 
+            if isinstance(uni,list): 
+                multiple_unis += 1
+            elif isinstance(uni,str):
+                one_uni += 1
             """
             if party == 'Republican Party (United States)': 
                 republican_list.append(person)
@@ -37,7 +41,10 @@ for letter in people_all:
                     democrat_universities[uni] = 1       
             """     
             
-        
+print(one_uni)
+print(multiple_unis)
+
+
 print(f"Republicans: {len(republican_list)}")
 print(f"Democrats: {len(democrat_list)}")
 print(republican_universities)
