@@ -36,6 +36,7 @@ for letter in people_all:
                     else:
                         democrat_universities[uni] = 1   
 
+"""
 republican_over_10 = {}
 for university, frequency in republican_universities.items():
     if frequency >= 10:
@@ -45,10 +46,19 @@ democrat_over_10 = {}
 for university, frequency in democrat_universities.items():
     if frequency >= 10:
         democrat_over_10[university] = frequency
-        
+"""
+
             
 print(f"Republicans: {len(republican_list)}")
 print(f"Democrats: {len(democrat_list)}")
-print(len(republican_over_10))
-print('\n')
-print(len(democrat_over_10))
+#print(republican_universities)
+#print('\n')
+#print(democrat_universities)
+
+"""
+import json
+with open('republican.json', 'w', encoding='utf-8') as file:
+    json.dump(republican_universities, file, indent=4)
+with open('democrat.json', 'w', encoding='utf-8') as file:
+    json.dump(democrat_universities, file, indent=4)
+"""
