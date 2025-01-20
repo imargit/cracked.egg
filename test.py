@@ -52,5 +52,3 @@ print(f"Democrats: {len(democrat_list)}")
 print(len(republican_over_10))
 print('\n')
 print(len(democrat_over_10))
-
-
