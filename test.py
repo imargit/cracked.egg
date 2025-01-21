@@ -40,7 +40,14 @@ unique_universities_list = generate_uni_list()
 republican_universities={}
 democrat_universities={}
 
+#nr_of_democracts = 0
+#nr_of_republicans = 0
+
+
 def add_to_universities(party, uni_data, check_if_highschool, check_if_uni):
+    #global nr_of_democracts
+    #global nr_of_republicans
+
     unilist = []
     #MAKE IT A LIST REGARDLESS OF WHETHER THERE IS ONE OR MULTIPLE UNIVERSITIES
     if isinstance(uni_data,str): 
@@ -48,10 +55,8 @@ def add_to_universities(party, uni_data, check_if_highschool, check_if_uni):
     elif isinstance(uni_data,list):
         unilist = uni_data
     
-    #CALCULATE THE WEIGHTED VALUE THAT THE UNIVERSITY ATTENDANCE HAS
-    uni_value = 1/len(unilist)
-    
-    #LOOP THROUGH UNIVERSITIES AND ADD EACH
+    unilist_filtered = []
+    #LOOP THROUGH UNIVERSITIES AND CREATE A NEW LIST OF THE ONES THAT SHOULD BE COUNTED
     for uni in unilist:
         #FOR DATA FROM THE EDUCATION VARIABLE, CHECK IF IT IS A UNIVERSITY
         if check_if_uni:
@@ -62,14 +67,27 @@ def add_to_universities(party, uni_data, check_if_highschool, check_if_uni):
              if 'high school' in uni.lower():
                 #ONLY CONSIDER IF IT IS A UNIVERSITY, NOT A HIGH SCHOOL
                  continue
+        unilist_filtered.append(uni)
+
+    #STOP FUNCTION IF FILTERED LIST IS EMPTY
+    if len(unilist_filtered) == 0:
+        return
+
+    #CALCULATE THE WEIGHTED VALUE THAT THE UNIVERSITY ATTENDANCE HAS
+    uni_value = 1/len(unilist_filtered)
+
+    #LOOP THROUGH THE UNIVERSITIES AND ADD THE RELEVANT VALUES TO THE DICTIONARIES
+    for uni in unilist_filtered:
         if party == 'Republican Party (United States)': 
             #republican_list.append(person)
+            #nr_of_republicans += uni_value
             if uni in republican_universities:
                 republican_universities[uni] = republican_universities[uni] + uni_value
             else:
                 republican_universities[uni] = uni_value
         elif party == 'Democratic Party (United States)': 
             #democrat_list.append(person)
+            #nr_of_democracts += uni_value
             if uni in democrat_universities:
                 democrat_universities[uni] = democrat_universities[uni] + uni_value
             else:
@@ -105,7 +123,9 @@ for letter in people_all:
                          False, #NO NEED TO CHECK IF HIGH SCHOOL, SINCE LIST OF UNIQUE UNIS ALREDY EXCLUDES HIGH SCHOOLS
                          True #NEED TO CHECK IF UNIVERSITY, SINCE CONTAINS A LOT OF MISLEADING ENTRIES (E.G. BACHELOR OF ARTS)
                     )
-                    
+
+#print(f'Nr of democracts: {nr_of_democracts}')
+#print(f'Nr of republicans: {nr_of_republicans}')
 
 """
 republican_over_10 = {}
