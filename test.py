@@ -1,9 +1,11 @@
 from pathlib import Path
-
 import json
 current_dir = Path()
 
+#DEFINE ALPHABET
 alphabet = ['A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 'K', 'L', 'M', 'N', 'O', 'P', 'Q', 'R', 'S', 'T', 'U', 'V', 'W', 'X', 'Y', 'Z']
+
+#GET ALL DATA
 people_all=[]
 for letter in alphabet:
     with open(current_dir / "Dataset" / f'{letter}_people.json', encoding='utf-8') as file:
@@ -34,11 +36,9 @@ def generate_uni_list():
 #GET UNIQUE UNIVERSITY LIST
 unique_universities_list = generate_uni_list()
 
-
+#CREATE EMPTY DICTIONARIES TO STORE FREQUENCIES
 republican_universities={}
 democrat_universities={}
-
-
 
 def add_to_universities(party, uni_data, check_if_highschool, check_if_uni):
     unilist = []
@@ -47,6 +47,11 @@ def add_to_universities(party, uni_data, check_if_highschool, check_if_uni):
         unilist = [uni_data]
     elif isinstance(uni_data,list):
         unilist = uni_data
+    
+    #CALCULATE THE WEIGHTED VALUE THAT THE UNIVERSITY ATTENDANCE HAS
+    uni_value = 1/len(unilist)
+    
+    #LOOP THROUGH UNIVERSITIES AND ADD EACH
     for uni in unilist:
         #FOR DATA FROM THE EDUCATION VARIABLE, CHECK IF IT IS A UNIVERSITY
         if check_if_uni:
@@ -57,8 +62,6 @@ def add_to_universities(party, uni_data, check_if_highschool, check_if_uni):
              if 'high school' in uni.lower():
                 #ONLY CONSIDER IF IT IS A UNIVERSITY, NOT A HIGH SCHOOL
                  continue
-        #CALCULATE THE WEIGHTED VALUE THAT THE UNIVERSITY ATTENDANCE HAS
-        uni_value = 1/len(unilist)
         if party == 'Republican Party (United States)': 
             #republican_list.append(person)
             if uni in republican_universities:
@@ -74,7 +77,9 @@ def add_to_universities(party, uni_data, check_if_highschool, check_if_uni):
 
 
 #nr_with_both = 0
+#LOOP THROUGH ALL LETTERS
 for letter in people_all:
+    #WITHIN EACH LETTER, LOOP THROUGH ALL PEOPLE
     for person in letter:
         #THIS WAS USED TO CHECK THE POLITICIANS WHO HAVE AN EDUCATION BUT NOT AN ALMA MATER LABEL
         """
@@ -83,21 +88,22 @@ for letter in people_all:
             nr_with_both += 1
         """
 
+        #IF THE PERSON IS A REPUBLICAN OR DEMOCRAT POLITICIAN AND HAS EITHER ALMA MATER OR EDUCATION DEFINED, CALL THE FUNCTION THAT ADDS THEIR INSTUTUTES TO THE DATA DICTIONARY
         if ('ontology/party_label' in person):
             if person['ontology/party_label'] == 'Republican Party (United States)' or person['ontology/party_label'] == 'Democratic Party (United States)':
                 if ('ontology/almaMater_label' in person):
                     add_to_universities(
                         person['ontology/party_label'],
                         person['ontology/almaMater_label'],
-                        True, #NEED TO CHECK IF HIGH SCHOOL
-                        False
+                        True, #NEED TO CHECK IF HIGH SCHOOL, ONLY ADD IF NOT
+                        False #NO NEED TO CHECK IF UNIVERSITY
                     )
                 elif ('ontology/education_label' in person):
                     add_to_universities(
                          person['ontology/party_label'],
                          person['ontology/education_label'],
                          False, #NO NEED TO CHECK IF HIGH SCHOOL, SINCE LIST OF UNIQUE UNIS ALREDY EXCLUDES HIGH SCHOOLS
-                         True
+                         True #NEED TO CHECK IF UNIVERSITY, SINCE CONTAINS A LOT OF MISLEADING ENTRIES (E.G. BACHELOR OF ARTS)
                     )
                     
 
