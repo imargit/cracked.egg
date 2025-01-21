@@ -1,16 +1,28 @@
 library(tidyverse)
+library(jsonlite)
 
-repu_df <- read_csv('frequencies_repu.csv')
-demo_df <- read_csv('frequencies_demo.csv')
-merged_df <- merge(repu_df,demo_df, by = 'uni')
+cut_off = 45
+
+repu_df <- as.data.frame(fromJSON('republican.json', flatten = TRUE)) |>
+  pivot_longer(cols = everything(), names_to = 'Universities', values_to = 'Frequency')|>
+  mutate(University = str_replace_all(Universities, '\\.',' ')) |>
+  select(University,Frequency)
+
+demo_df <- as.data.frame(fromJSON('democrat.json', flatten = TRUE)) |>
+  pivot_longer(cols = everything(), names_to = 'Universities', values_to = 'Frequency')|>
+  mutate(University = str_replace_all(Universities, '\\.',' ')) |>
+  select(University,Frequency)
+
+merged_df <- merge(repu_df,demo_df, by = 'University') |>
+  rename(repu_freq = Frequency.x, demo_freq = Frequency.y)
 
 df_1 <- merged_df |>
   mutate(neg_repu_freq = -abs(repu_freq)) |>
-  filter(repu_freq > 25 | demo_freq > 25) |>
+  filter(repu_freq > cut_off | demo_freq > cut_off) |>
   pivot_longer(neg_repu_freq:demo_freq, names_to = 'Party', values_to = 'Frequency')
 
 plot_1 <- ggplot(data = df_1)+
-  aes(x = uni, y = Frequency, fill = Party)+
+  aes(x = University, y = Frequency, fill = Party)+
   geom_col()+
   coord_flip()+
   scale_fill_manual(values=c("blue", 
@@ -24,11 +36,11 @@ plot_1 <- ggplot(data = df_1)+
 ggsave('bar_middle_axis_plot.pdf', width = 8, height = 6)
 
 df_2 <- merged_df |>
-  filter(repu_freq > 25 | demo_freq > 25) |>
+  filter(repu_freq > cut_off | demo_freq > cut_off) |>
   pivot_longer(repu_freq:demo_freq, names_to = 'Party', values_to = 'Frequency')
 
 plot_2 <- ggplot(data = df_2)+
-  aes(x = uni, y = Frequency, fill = Party)+
+  aes(x = University, y = Frequency, fill = Party)+
   geom_col(position = "dodge")+
   coord_flip()+
   scale_fill_manual(values=c("blue", 
@@ -44,11 +56,11 @@ plot_2 <- ggplot(data = df_2)+
 ggsave('bar_plot.pdf', width = 8, height = 6)
 
 df_3 <- merged_df |>
-  filter(repu_freq > 25 | demo_freq > 25) |>
+  filter(repu_freq > cut_off | demo_freq > cut_off) |>
   mutate(surplus_demo = demo_freq - repu_freq)
 
 plot_3 <- ggplot(data = df_3)+
-  aes(x = reorder(uni, surplus_demo), y = surplus_demo, fill = ifelse(surplus_demo<0, "blue", "red"))+
+  aes(x = reorder(University, surplus_demo), y = surplus_demo, fill = ifelse(surplus_demo<0, "blue", "red"))+
   geom_col()+
   coord_flip()+
   labs(
@@ -59,8 +71,7 @@ plot_3 <- ggplot(data = df_3)+
                              "blue"),
                     name = "Party", 
                     labels = c("Republicans","Democrats"))+
-  scale_y_continuous(limits = c(-46,46),
-                     n.breaks = 8
-                     )+
+  scale_y_continuous(limits = c(-76,76),
+                     n.breaks = 8)+
   theme_minimal()
-ggsave('surplus_barplot.pdf', width = 8, height = 6)
+ggsave('surplus_barplot.pdf', width = 9, height = 6)
