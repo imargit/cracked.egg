@@ -1,0 +1,6 @@
+Control of institution
+Value	Label
+1	    Public		
+2	    Private not-for-profit		
+3	    Private for-profit		
+-3	    {Not available}
