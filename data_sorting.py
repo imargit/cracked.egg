@@ -20,21 +20,23 @@ def generate_uni_list():
     uni_list = []
     for letter in people_all:
         for person in letter:
-            if ('ontology/almaMater_label' in person):
-                uni_data = person['ontology/almaMater_label']
-                personal_temp_list = []
-                if isinstance(uni_data,str): 
-                    personal_temp_list = [uni_data]
-                elif isinstance(uni_data,list):
-                    personal_temp_list = uni_data
-                for uni in personal_temp_list:
-                    #ADD TO LIST IF NOT ALREADY IN LIST AND IT IS A UNIVERSITY, NOT A HIGH SCHOOL
-                    if (uni not in uni_list) and ('high school' not in uni.lower()):
-                        uni_list.append(uni)
+            if 'ontology/party_label' in person:
+                if ('ontology/almaMater_label' in person) and (person['ontology/party_label'] == 'Republican Party (United States)' or person['ontology/party_label'] == 'Democratic Party (United States)'):
+                    uni_data = person['ontology/almaMater_label']
+                    personal_temp_list = []
+                    if isinstance(uni_data,str): 
+                        personal_temp_list = [uni_data]
+                    elif isinstance(uni_data,list):
+                        personal_temp_list = uni_data
+                    for uni in personal_temp_list:
+                        #ADD TO LIST IF NOT ALREADY IN LIST AND IT IS A UNIVERSITY, NOT A HIGH SCHOOL
+                        if (uni not in uni_list) and ('high school' not in uni.lower()):
+                            uni_list.append(uni)
     return uni_list
 
 #GET UNIQUE UNIVERSITY LIST
 unique_universities_list = generate_uni_list()
+
 
 #CREATE EMPTY DICTIONARIES TO STORE FREQUENCIES
 republican_universities={}
@@ -148,7 +150,13 @@ for university, frequency in democrat_universities.items():
 
 
 import json
-with open('republican.json', 'w', encoding='utf-8') as file:
+
+with open('republican_frequencies.json', 'w', encoding='utf-8') as file:
     json.dump(republican_universities, file, indent=4)
-with open('democrat.json', 'w', encoding='utf-8') as file:
+with open('democrat_frequencies.json', 'w', encoding='utf-8') as file:
     json.dump(democrat_universities, file, indent=4)
+
+"""
+with open('unique_universities.json', 'w', encoding='utf-8') as file:
+    json.dump(unique_universities_list, file, indent=4)
+"""
