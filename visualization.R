@@ -2,7 +2,7 @@ library(tidyverse)
 library(jsonlite)
 
 # Cut-off value: At least this number of republicans or democrats have attended this university
-cut_off = 10
+cut_off = 65
 # Cut-off value (%): There is at least this percentage MORE democrats/republicans (100% = same amount)
 cut_off_surplus = 150
 
@@ -38,7 +38,7 @@ plot_1 <- ggplot(data = df_1)+
   scale_y_continuous(n.breaks = 6)+
   labs(
     x = NULL)
-ggsave('Figures/bar_middle_axis_plot.pdf', width = 8, height = 6)
+#ggsave('Figures/bar_middle_axis_plot.pdf', width = 8, height = 6)
 
 # BAR PLOT OF UNIVERSITIES AND THEIR POLITICIANS - SIDE
 
@@ -60,7 +60,7 @@ plot_2 <- ggplot(data = df_2)+
     x = NULL
   )+
   theme_minimal()
-ggsave('Figures/bar_plot.pdf', width = 8, height = 6)
+#ggsave('Figures/bar_plot.pdf', width = 8, height = 6)
 
 # BAR PLOT OF SURPLUS - FOR DEMOCRATS AND REPUBLICANS
 
@@ -133,5 +133,4 @@ plot_5 <- ggplot(data = prepped_df_5)+
   scale_x_discrete(labels = c('Republican','Democrat'))+
   scale_y_continuous(labels = scales::comma)+
   theme_minimal()
-ggsave('figures/endowment_per_university_affiliation_violin_plot_excluding_more_than_0.5M.pdf', width = 7, height = 5)
-print(plot_5)
+#ggsave('figures/endowment_per_university_affiliation_violin_plot_excluding_more_than_0.5M.pdf', width = 7, height = 5)
