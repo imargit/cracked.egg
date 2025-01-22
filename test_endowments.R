@@ -57,4 +57,3 @@ ggsave('figures/endowment_per_university_affiliation.pdf', width = 7, height = 5
 #create scatterplot
 # x = amount of students
 # y = edowment pp
-print(plot_endowment)
