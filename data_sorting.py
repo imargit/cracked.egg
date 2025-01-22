@@ -8,7 +8,7 @@ alphabet = ['A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 'K', 'L', 'M', 'N'
 #GET ALL DATA
 people_all=[]
 for letter in alphabet:
-    with open(current_dir / "Dataset" / f'{letter}_people.json', encoding='utf-8') as file:
+    with open(current_dir / "Data" / "Dataset" / f'{letter}_people.json', encoding='utf-8') as file:
         people_all.append(json.load(file))
  
 #create empty lists
@@ -39,7 +39,7 @@ def generate_uni_list():
 #GET UNIQUE UNIVERSITY LIST
 #ALREADY GENERATED, SO JUST LOAD THE FILE
 unique_universities_list = []
-with open('unique_universities.json', encoding='utf-8') as file:
+with open(current_dir / 'Data' / 'unique_universities.json', encoding='utf-8') as file:
     unique_universities = json.load(file)
 
 
@@ -156,12 +156,12 @@ for university, frequency in democrat_universities.items():
 
 import json
 
-with open('republican_frequencies.json', 'w', encoding='utf-8') as file:
+with open(current_dir / 'Data' / 'republican_frequencies.json', 'w', encoding='utf-8') as file:
     json.dump(republican_universities, file, indent=4)
-with open('democrat_frequencies.json', 'w', encoding='utf-8') as file:
+with open(current_dir / 'Data' / 'democrat_frequencies.json', 'w', encoding='utf-8') as file:
     json.dump(democrat_universities, file, indent=4)
 
 """
-with open('unique_universities.json', 'w', encoding='utf-8') as file:
+with open(current_dir / 'Data' / 'unique_universities.json', 'w', encoding='utf-8') as file:
     json.dump(unique_universities_list, file, indent=4)
 """

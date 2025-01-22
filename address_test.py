@@ -1,9 +1,11 @@
 from geopy.geocoders import Nominatim
 import json
+from pathlib import Path
 
+current_dir = Path()
 
 unique_universities=[]
-with open('unique_universities.json', encoding='utf-8') as file:
+with open(current_dir / 'Data' / 'unique_universities.json', encoding='utf-8') as file:
     unique_universities = json.load(file)
 
 address_error_message = "NOT FOUND"
@@ -38,5 +40,5 @@ university_addresses = {}
 for uni in unique_universities:
     university_addresses[uni] = get_state(uni)
 
-with open('university_addresses.json', 'w', encoding='utf-8') as file:
+with open(current_dir / 'Data' / 'university_addresses.json', 'w', encoding='utf-8') as file:
     json.dump(university_addresses, file, indent=4)

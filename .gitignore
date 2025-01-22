@@ -1,5 +1,4 @@
-#ignore data file:
-Dataset
+Data/Dataset
 .DS_Store
 .Rhistory
 .RData
