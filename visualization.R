@@ -112,4 +112,4 @@ plot_4 <- ggplot(data = prepped_df_4) +
   scale_y_continuous(labels = scales::comma)
 ggsave('figures/endowment_per_university_affiliation.pdf', width = 7, height = 5)
 
-print(df_4)
+print(plot_4)
