@@ -4,7 +4,7 @@ import json
 
 unique_universities=[]
 with open('unique_universities.json', encoding='utf-8') as file:
-    unique_universities = json.load(file)[:10]
+    unique_universities = json.load(file)
 
 address_error_message = "NOT FOUND"
 US_STATE_ABBREVIATIONS = {
