@@ -16,6 +16,7 @@ for letter in alphabet:
 #democrat_list = []
 
 #GENERATE A LIST OF UNIQUE UNIVERSITIES ACROSS ALL PEOPLE IN THE DATASET. TO BE USED LATER TO DETERMINE WHETHER AN ENTRY IN THE EDUCATION LABEL IS A UNIVERSITY (WHEN SOMEONE ONLY HAS EDUCATION LABEL BUT NOT ALMA MATER DEFINED)
+"""
 def generate_uni_list():
     uni_list = []
     for letter in people_all:
@@ -33,9 +34,13 @@ def generate_uni_list():
                         if (uni not in uni_list) and ('high school' not in uni.lower()):
                             uni_list.append(uni)
     return uni_list
+"""
 
 #GET UNIQUE UNIVERSITY LIST
-unique_universities_list = generate_uni_list()
+#ALREADY GENERATED, SO JUST LOAD THE FILE
+unique_universities_list = []
+with open('unique_universities.json', encoding='utf-8') as file:
+    unique_universities = json.load(file)
 
 
 #CREATE EMPTY DICTIONARIES TO STORE FREQUENCIES
