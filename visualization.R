@@ -3,12 +3,12 @@ library(jsonlite)
 
 cut_off = 45
 
-repu_df <- as.data.frame(fromJSON('republican.json', flatten = TRUE)) |>
+repu_df <- as.data.frame(fromJSON('Data/republican.json', flatten = TRUE)) |>
   pivot_longer(cols = everything(), names_to = 'Universities', values_to = 'Frequency')|>
   mutate(University = str_replace_all(Universities, '\\.',' ')) |>
   select(University,Frequency)
 
-demo_df <- as.data.frame(fromJSON('democrat.json', flatten = TRUE)) |>
+demo_df <- as.data.frame(fromJSON('Data/democrat.json', flatten = TRUE)) |>
   pivot_longer(cols = everything(), names_to = 'Universities', values_to = 'Frequency')|>
   mutate(University = str_replace_all(Universities, '\\.',' ')) |>
   select(University,Frequency)
@@ -33,7 +33,7 @@ plot_1 <- ggplot(data = df_1)+
   scale_y_continuous(n.breaks = 6)+
   labs(
     x = NULL)
-ggsave('bar_middle_axis_plot.pdf', width = 8, height = 6)
+ggsave('Figures/bar_middle_axis_plot.pdf', width = 8, height = 6)
 
 df_2 <- merged_df |>
   filter(repu_freq > cut_off | demo_freq > cut_off) |>
@@ -53,7 +53,7 @@ plot_2 <- ggplot(data = df_2)+
     x = NULL
   )+
   theme_minimal()
-ggsave('bar_plot.pdf', width = 8, height = 6)
+ggsave('Figures/bar_plot.pdf', width = 8, height = 6)
 
 df_3 <- merged_df |>
   filter(repu_freq > cut_off | demo_freq > cut_off) |>
@@ -74,4 +74,4 @@ plot_3 <- ggplot(data = df_3)+
   scale_y_continuous(limits = c(-76,76),
                      n.breaks = 8)+
   theme_minimal()
-ggsave('surplus_barplot.pdf', width = 9, height = 6)
+ggsave('Figures/surplus_barplot.pdf', width = 9, height = 6)

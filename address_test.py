@@ -1,4 +1,12 @@
 from geopy.geocoders import Nominatim
+import json
+from pathlib import Path
+
+current_dir = Path()
+
+unique_universities=[]
+with open(current_dir / 'Data' / 'unique_universities.json', encoding='utf-8') as file:
+    unique_universities = json.load(file)
 
 address_error_message = "NOT FOUND"
 US_STATE_ABBREVIATIONS = {
@@ -18,14 +26,19 @@ US_STATE_ABBREVIATIONS = {
 }
 
 geolocator = Nominatim(user_agent="university_locator")
-university_name = "University of Alabama at Birmingham"
 
-location = geolocator.geocode(university_name)
-if location:
-    state_name = location.address.split(', ')[-3]
-    if state_name in US_STATE_ABBREVIATIONS:
-        print(US_STATE_ABBREVIATIONS[state_name])
-    else:
-        print(address_error_message)
-else:
-    print(address_error_message)
+def get_state(university_name):
+    global geolocator
+    try:
+        location = geolocator.geocode(university_name)
+        state_name = location.address.split(', ')[-3]
+        return(US_STATE_ABBREVIATIONS[state_name])
+    except:
+        return(address_error_message)
+
+university_addresses = {}
+for uni in unique_universities:
+    university_addresses[uni] = get_state(uni)
+
+with open(current_dir / 'Data' / 'university_addresses.json', 'w', encoding='utf-8') as file:
+    json.dump(university_addresses, file, indent=4)
