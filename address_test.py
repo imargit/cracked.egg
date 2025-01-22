@@ -38,4 +38,5 @@ university_addresses = {}
 for uni in unique_universities:
     university_addresses[uni] = get_state(uni)
 
-print(university_addresses)
+with open('university_addresses.json', 'w', encoding='utf-8') as file:
+    json.dump(university_addresses, file, indent=4)
