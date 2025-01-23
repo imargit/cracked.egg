@@ -113,16 +113,16 @@ df_4 <- merged_df |>
   group_by(surplus_demo_grouping) |>
   rename(institution_name = University) |>
   filter(repu_freq + demo_freq > cut_off)
- # filter((demo_freq/repu_freq)*100 > cut_off_surplus | (repu_freq/demo_freq)*100 > cut_off_surplus) 
+  filter((demo_freq/repu_freq)*100 > cut_off_surplus | (repu_freq/demo_freq)*100 > cut_off_surplus) 
 
 endowment_person <- read_csv('Data/graduation.csv') |>
   group_by(year) |>
   filter(year == 2018)
 
-prepped_df_4 <-  merge(df_4, endowment_person, by = 'institution_name') |>
+prepped_df_4 <-  merge(df_4, endowment_person, by = 'institution_name') 
   #filter(endowment_pp < 1500000) |>
-  group_by(surplus_demo_grouping) |>
-  summarize(mean = median(endowment_pp, na.rm = TRUE))
+  #group_by(surplus_demo_grouping) |>
+  #summarize(mean = median(endowment_pp, na.rm = TRUE))
 
 plot_4 <- ggplot(data = prepped_df_4)+
   aes(x = surplus_demo_grouping, y = mean)+
@@ -141,13 +141,14 @@ prepped_df_5 <-  merge(df_4, endowment_person, by = 'institution_name')
 
 plot_5 <- ggplot(data = prepped_df_5)+
   aes(x = surplus_demo_grouping, y = endowment_pp)+
-  geom_boxplot()+
+  geom_violin()+
   labs(x = 'University affiliation', 
        y = 'Endowment per student ($)')+
   scale_x_discrete(labels = c('Republican','Democrat'))+
   scale_y_continuous(labels = scales::comma)+
   theme_minimal()
-#ggsave('figures/endowment_per_university_affiliation_violin_plot_excluding_more_than_1.5M.pdf', width = 7, height = 5)
+print(plot_5)
+ggsave('figures/endowment_per_university_affiliation_violin_plot.pdf', width = 7, height = 5)
 
 plot_6 <- ggplot(data = prepped_df_5)+
   aes(y = abs(surplus_demo), x = endowment_pp, color = ifelse(surplus_demo<0, "blue", "red"))+
@@ -196,5 +197,4 @@ plot_8 <- ggplot(data = df_8)+
   labs(y = 'Surplus ratio of Democrats  //  Republicans',
        x = 'Total politicians per university')+
   theme(legend.position="none")
-print(plot_8)
-ggsave('figures/surplus_ratio_vs_total_politicians.pdf', width = 7, height = 5)
+#ggsave('figures/surplus_ratio_vs_total_politicians.pdf', width = 7, height = 5)
