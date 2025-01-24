@@ -102,8 +102,8 @@ df_4 <- merged_df |>
 
 merged_df_4 <-  merge(df_4, endowment_person, by = 'institution_name') |>
   #filter(endowment_pp < 1500000) |>
-  group_by(surplus_repu_grouping) 
-  #summarize(mean = mean(endowment_pp, na.rm = TRUE))
+  group_by(surplus_repu_grouping) |>
+  summarize(mean = mean(endowment_pp, na.rm = TRUE))
 
 plot_4 <- ggplot(data = merged_df_4)+
   aes(x = reorder(surplus_repu_grouping,-mean), y = mean)+
@@ -156,7 +156,7 @@ plot_7 <- ggplot(data = df_7)+
   theme_minimal()
 #ggsave('figures/endowment_vs_total_politicians.pdf', width = 7, height = 5)
 
-# SCATTERPLOT / CONE DIAGRAM OF THE SURPLUS RATIO VS TOTAL POLITICIAN ALUMNI
+# SCATTERPLOT / PINECONE DIAGRAM OF THE SURPLUS RATIO VS TOTAL POLITICIAN ALUMNI
 
 df_8 <- merged_df |>
   filter(repu_freq + demo_freq > cut_off) |>
