@@ -102,8 +102,8 @@ df_4 <- merged_df |>
 
 merged_df_4 <-  merge(df_4, endowment_person, by = 'institution_name') |>
   #filter(endowment_pp < 1500000) |>
-  group_by(surplus_repu_grouping) |>
-  summarize(mean = mean(endowment_pp, na.rm = TRUE))
+  group_by(surplus_repu_grouping) 
+  #summarize(mean = mean(endowment_pp, na.rm = TRUE))
 
 plot_4 <- ggplot(data = merged_df_4)+
   aes(x = reorder(surplus_repu_grouping,-mean), y = mean)+
